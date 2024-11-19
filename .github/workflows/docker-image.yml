@@ -55,7 +55,7 @@ jobs:
     # Step 8: Push Docker image with branch-specific tags
     - name: Push Docker image with branch-specific tags
       run: |
-        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bolt-ai-fork
+        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bolt.new-any-llm-1
         BRANCH_NAME=${{ github.ref_name }}
         docker tag bolt-ai:production $IMAGE_NAME:${{ github.ref_name }}
         docker push $IMAGE_NAME:${{ github.ref_name }}
@@ -64,6 +64,6 @@ jobs:
     - name: Push 'latest' tag for main branch
       if: github.ref == 'refs/heads/main'
       run: |
-        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bolt-ai-fork
+        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bolt.new-any-llm-1
         docker tag bolt-ai:production $IMAGE_NAME:latest
         docker push $IMAGE_NAME:latest
