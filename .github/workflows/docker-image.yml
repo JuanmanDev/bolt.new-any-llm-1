@@ -17,16 +17,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
     # Step 1: Check out the repository
     - name: Check out code
       uses: actions/checkout@v3
 
     # Step 2: Set up Node.js 20
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3 # docs https://pnpm.io/continuous-integration#github-actions
       with:
-        node-version: 20
-        cache: 'pnpm' # Enable pnpm cache for faster builds
+        version: 8  # Optional: specify a pnpm version
 
     # Step 3: Install pnpm globally
     - name: Install pnpm
