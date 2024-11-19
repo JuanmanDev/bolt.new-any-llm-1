@@ -165,6 +165,40 @@ When you run the Docker Compose command with the development profile, any change
 make on your machine to the code will automatically be reflected in the site running
 on the container (i.e. hot reloading still applies!).
 
+## Use auto generated docker (beta)
+
+[![Docker Image](https://img.shields.io/badge/Docker%20Image-Available-blue)](https://ghcr.io/<username>/<repository>)
+
+### Docker command
+
+```bash
+docker run -it -p 5173:5173 -v ./modelfiles:/app/modelfiles --env-file .env.local ghcr.io/<username>/bolt-ai-fork:latest
+```
+
+### Docker compose
+
+```yaml
+version: "3.9"
+
+services:
+  bolt-ai:
+    image: ghcr.io/<username>/bolt-ai-fork:latest
+    build:
+      context: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./modelfiles:/app/modelfiles
+    environment:
+      - NODE_ENV=production
+      - OPENAI_LIKE_API_KEY=1234-1234
+```
+
+```bash
+docker-compose up -d
+```
+
+
 ## Run Without Docker
 
 1. Install dependencies using Terminal (or CMD in Windows with admin permissions):
