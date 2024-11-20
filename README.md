@@ -173,31 +173,32 @@ on the container (i.e. hot reloading still applies!).
 
 ## Use auto generated docker (beta)
 
-[![Docker Image](https://img.shields.io/badge/Docker%20Image-Available-blue)](https://ghcr.io/<username>/<repository>)
+[![Docker Image](https://img.shields.io/badge/Docker%20Image-Available-blue)](https://github.com/coleam00/bolt.new-any-llm/pkgs/container/bolt.new-any-llm)
+
+You would need to create the `.env.local` file based on the `.env.enxample`.
 
 ### Docker command
 
 ```bash
-docker run -it -p 5173:5173 -v ./modelfiles:/app/modelfiles --env-file .env.local ghcr.io/<username>/bolt-ai-fork:latest
+docker run -it -p 5173:5173 -v ./modelfiles:/app/modelfiles -v ./.env.local:/app/.env.local ghcr.io/coleam00/bolt.new-any-llm:latest
 ```
 
 ### Docker compose
 
 ```yaml
-version: "3.9"
-
 services:
   bolt-ai:
-    image: ghcr.io/<username>/bolt-ai-fork:latest
+    image: ghcr.io/coleam00/bolt.new-any-llm:feature-add-docker-to-github-docker-hub:latest
     build:
       context: .
     ports:
       - "5173:5173"
     volumes:
       - ./modelfiles:/app/modelfiles
+      - ./.env.local:/app/.env.local
     environment:
       - NODE_ENV=production
-      - OPENAI_LIKE_API_KEY=1234-1234
+
 ```
 
 ```bash
