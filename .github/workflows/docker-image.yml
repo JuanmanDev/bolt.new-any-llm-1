@@ -58,7 +58,7 @@ jobs:
         IMAGE_NAME=ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/bolt.new-any-llm-1
         # Replace invalid characters in the branch name
         SANITIZED_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9._-]/-/g')
-        docker tag bolt.new-any-llm-1:production $IMAGE_NAME:$SANITIZED_BRANCH_NAME
+        docker tag bolt-ai:latest $IMAGE_NAME:$SANITIZED_BRANCH_NAME
         docker push $IMAGE_NAME:$SANITIZED_BRANCH_NAME
 
     # Step 9: Push the 'latest' tag only for the main branch
@@ -66,5 +66,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         IMAGE_NAME=ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/bolt.new-any-llm-1
-        docker tag bolt.new-any-llm-1:production $IMAGE_NAME:latest
+        docker tag bolt-ai:latest $IMAGE_NAME:latest
         docker push $IMAGE_NAME:latest
