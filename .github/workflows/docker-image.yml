@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/docker*
-      - feature/add-docker*
   pull_request:
     branches:
       - main
