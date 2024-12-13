@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/docker*
-      - feature/add-docker*
   pull_request:
     branches:
       - main
@@ -66,11 +64,21 @@ jobs:
         REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
         IMAGE_NAME=ghcr.io/$REPO_OWNER/$REPO_NAME
 
-        # Sanear el nombre de la rama para que sea compatible con Docker
+        # Clean branch name to be docker compatible
         SANITIZED_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9._-]/-/g')
 
         docker tag bolt-ai:development $IMAGE_NAME:$SANITIZED_BRANCH_NAME
         docker push $IMAGE_NAME:$SANITIZED_BRANCH_NAME
+
+        # Publish comment inside the PR
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          COMMENT_BODY="Docker image created: \n\n- Image: $IMAGE_NAME:$SANITIZED_BRANCH_NAME"
+          echo "$COMMENT_BODY"
+          curl -s -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT_BODY\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        fi
 
     # Step 9: Push the 'latest' and 'production' tags only for the main branch
     - name: Push 'latest' and 'production' tags for main branch
