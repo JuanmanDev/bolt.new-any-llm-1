@@ -186,7 +186,7 @@ DEFAULT_NUM_CTX=8192
       -v "$(pwd)/modelfiles:/app/modelfiles" \
       -v "$(pwd)/.env.local:/app/.env.local" \
       -e NODE_ENV=production \
-      ghcr.io/juanmandev/bolt.new-any-llm-1:feature-add-docker-to-github-docker-hub
+      ghcr.io/juanmandev/bolt.new-any-llm-1:production
    ```
 
 #### Option 3-b: Docker Compose
@@ -196,7 +196,7 @@ DEFAULT_NUM_CTX=8192
    ```yaml
    services:
      bolt-ai:
-       image: ghcr.io/juanmandev/bolt.new-any-llm-1:feature-add-docker-to-github-docker-hub
+       image: ghcr.io/juanmandev/bolt.new-any-llm-1:production
        build:
          context: .
        ports:
