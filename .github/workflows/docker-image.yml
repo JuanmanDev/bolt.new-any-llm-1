@@ -73,8 +73,11 @@ jobs:
         # Publish comment inside the PR
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
           COMMENT_BODY="Docker image created: \n\n- Image: $IMAGE_NAME:$SANITIZED_BRANCH_NAME"
-          echo "$COMMENT_BODY" > comment.txt
-          gh pr comment ${{ github.event.pull_request.number }} --body-file comment.txt
+          echo "$COMMENT_BODY"
+          curl -s -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT_BODY\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
         fi
 
     # Step 9: Push the 'latest' and 'production' tags only for the main branch
