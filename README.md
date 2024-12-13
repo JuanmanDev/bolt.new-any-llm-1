@@ -170,6 +170,54 @@ DEFAULT_NUM_CTX=8192
 
    - With the development profile, changes to your code will automatically reflect in the running container (hot reloading).  
 
+
+### Option 3: Docker (without build)
+
+#### Prerequisites
+- Ensure Docker is installed: [Download Docker](https://www.docker.com/)
+
+#### Option 3-a: Docker CLI
+
+1. **Run this command**:
+   ```shell
+   docker run -d \
+      --name bolt-ai \
+      -p 5173:5173 \
+      -v "$(pwd)/modelfiles:/app/modelfiles" \
+      -v "$(pwd)/.env.local:/app/.env.local" \
+      -e NODE_ENV=production \
+      ghcr.io/juanmandev/bolt.new-any-llm-1:feature-add-docker-to-github-docker-hub
+   ```
+
+#### Option 3-b: Docker Compose
+
+1. **Create `docker-compose.yml`**:  
+   Use this template:
+   ```yaml
+   services:
+     bolt-ai:
+       image: ghcr.io/juanmandev/bolt.new-any-llm-1:feature-add-docker-to-github-docker-hub
+       build:
+         context: .
+       ports:
+         - "5173:5173"
+       volumes:
+         - ./modelfiles:/app/modelfiles
+         - ./.env.local:/app/.env.local
+       environment:
+         - NODE_ENV=production
+   ```
+
+2. **Create `.env.local` file**:  
+   Copy and rename `.env.example` to `.env.local`. Update the configuration as needed.
+
+3. **Run the Container**:  
+   In the same directory where you have `docker-compose.yml`, run:
+   ```shell
+   docker compose up -d
+   ```
+
+
 ---
 
 ### Update Your Local Version to the Latest
